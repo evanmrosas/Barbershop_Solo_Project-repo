@@ -61,36 +61,31 @@ const AppointmentSchema = new Schema(
         price: {
             type: Number
         },
-        creditCard: {
-            type: {
-                cardNumber: {
-                    type: String,
-                    required: [true, "Credit card number is required"],
-                    validate: {
-                        validator: validateCreditCardNumber,
-                        message: "Invalid credit card number"
-                    }
-                },
-                expirationDate: {
-                    type: String,
-                    required: [true, "Expiration date is required"]
-                },
-                cvv: {
-                    type: String,
-                    required: [true, "CVV is required"]
-                }
-            },
-            required: [true, "Enter card information"]
+        cardNumber: {
+            type: String,
+            required: [true, "Credit card number is required"],
+            validate: {
+                validator: validateCreditCardNumber,
+                message: "Invalid credit card number"
+            }
+        },
+        expirationDate: {
+            type: String,
+            required: [true, "Expiration date is required"]
+        },
+        cvv: {
+            type: String,
+            required: [true, "CVV is required"]
         }
     }, { timestamps: true });
 
 AppointmentSchema.pre('save', async function (next) {
     try {
-        if (this.creditCard && this.creditCard.cardNumber && this.creditCard.cvv) {
-            const hashedCardNumber = await bcrypt.hash(this.creditCard.cardNumber, 10);
-            const hashedCVV = await bcrypt.hash(this.creditCard.cvv, 10);
-            this.creditCard.cardNumber = hashedCardNumber;
-            this.creditCard.cvv = hashedCVV;
+        if (this.cardNumber && this.cvv) {
+            const hashedCardNumber = await bcrypt.hash(this.cardNumber, 10);
+            const hashedCVV = await bcrypt.hash(this.cvv, 10);
+            this.cardNumber = hashedCardNumber;
+            this.cvv = hashedCVV;
         }
         next();
     } catch (error) {

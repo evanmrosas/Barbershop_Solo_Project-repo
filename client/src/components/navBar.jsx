@@ -5,7 +5,7 @@ const NavBar = ({type}) =>{
     return(
         <div className="navbar container" style={{ backgroundColor: 'rgb(28, 70, 20)', display: 'flex', justifyContent: 'center' }}>
             <div className='image mb-3' style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
-                <Link to="/">
+                <Link to="/create">
                     <img src={logoImage} alt="Logo" style={{ width: "75px", height: "100px" }}/>
                 </Link>
                 <h2 style={{ color: 'white'}}>My-T-Sharp</h2>

@@ -10,11 +10,9 @@ const Form = ({type}) =>{
     const [service, setService] = useState("");
     const [date, setDate] = useState("");
     const [price, setPrice] = useState();
-    const [creditCard, setCreditCard] = useState({
-        cardNumber: '',
-        expirationDate: '',
-        cvv: ''
-    });
+    const [cardNumber, setCardNumber] = useState("");
+    const [expirationDate, setExpirationDate] = useState("");
+    const [cvv, setCVV] = useState("");
     const [errors, setErrors] =useState([])
 
     const navigate = useNavigate();
@@ -67,23 +65,26 @@ const Form = ({type}) =>{
     }
     const creditCardHandler = (e) => {
         const { name, value } = e.target;
-        setCreditCard(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
+        if (name === "cardNumber") {
+            setCardNumber(value);
+        } else if (name === "expirationDate") {
+            setExpirationDate(value);
+        } else if (name === "cvv") {
+            setCVV(value);
+        }
     };
 
     const submitHandler = (e) =>{
         e.preventDefault();
 
-        const formData = {firstName, lastName, email, barber, service, date, price, creditCard};
+        const formData = {firstName, lastName, email, barber, service, date, price, cardNumber, expirationDate, cvv};
 
         if (type === "update") {
             axios.patch(`http://localhost:9999/api/appointments/${id}`, formData)
                 .then(res => {
                     console.log(res);
                     console.log(res.data);
-                    navigate("/");
+                    navigate("/appointments");
                 })
                 .catch(err => {
                     console.log(err);
@@ -95,7 +96,7 @@ const Form = ({type}) =>{
                 .then(res => {
                     console.log(res);
                     console.log(res.data);
-                    navigate("/");
+                    navigate("/appointments");
                 })
                 .catch(err => {
                     console.log(err);
@@ -116,7 +117,7 @@ const Form = ({type}) =>{
                     <form onSubmit={submitHandler}>
                         <div className="col">
                             <div className="row">
-                                <h3>Personal Infomration</h3>
+                                <h3>Personal Information</h3>
                                 <div className="row mb-4 mt-3">
                                     <div className="col-sm-6">
                                         <input 
@@ -126,7 +127,7 @@ const Form = ({type}) =>{
                                         value={firstName}
                                         onChange={firstNameHandler}
                                         placeholder="First Name"
-                                        style={{ borderColor: errors.firstName ? 'red' : 'initial', width: '300px', height: '50px'}}
+                                        style={{ borderColor: errors.firstName ? 'red' : ' ', width: '300px', height: '50px'}}
                                         />
                                         {errors.firstName && <p className="text-danger">{errors.firstName.message}</p>}
                                     </div>
@@ -138,7 +139,7 @@ const Form = ({type}) =>{
                                         value={lastName}
                                         onChange={lastNameHandler}
                                         placeholder="Last Name"
-                                        style={{ borderColor: errors.lastName ? 'red' : 'initial', width: '300px', height: '50px' }}
+                                        style={{ borderColor: errors.lastName ? 'red' : ' ', width: '300px', height: '50px' }}
                                         />
                                         {errors.lastName && <p className="text-danger">{errors.lastName.message}</p>}
                                     </div>
@@ -152,7 +153,7 @@ const Form = ({type}) =>{
                                         value={email}
                                         onChange={emailHandler}
                                         placeholder="Email"
-                                        style={{ borderColor: errors.email ? 'red' : 'initial', width: '300px', height: '50px' }}
+                                        style={{ borderColor: errors.email ? 'red' : ' ', width: '300px', height: '50px' }}
                                         />
                                         {errors.email && <p className="text-danger">{errors.email.message}</p>}
                                     </div>
@@ -163,7 +164,7 @@ const Form = ({type}) =>{
                                         id="date"
                                         value={date}
                                         onChange={dateHandler}
-                                        style={{ borderColor: errors.date ? 'red' : 'initial', width: '300px', height: '50px' }}
+                                        style={{ borderColor: errors.date ? 'red' : ' ', width: '300px', height: '50px' }}
                                         />
                                         {errors.date && <p className="text-danger">{errors.date.message}</p>}
                                     </div>
@@ -194,16 +195,16 @@ const Form = ({type}) =>{
                                 </div>
                             </div>
                             <div className="row">
-                                <h3>Payment Infomration</h3>
+                                <h3>Payment Information</h3>
                                 <div className="row mb-4 mt-3">
                                     <div className="col-sm-6">
                                         <input 
                                         type="text"
                                         name="cardNumber"
-                                        value={creditCard.cardNumber}
+                                        value={cardNumber}
                                         onChange={creditCardHandler}
                                         placeholder="Credit Card Number"
-                                        style={{ borderColor: errors.cardNumber ? 'red' : 'initial', width: '300px', height: '50px' }}
+                                        style={{ borderColor: errors.cardNumber ? 'red' : ' ', width: '300px', height: '50px' }}
                                         />
                                         {errors.cardNumber && <p className="text-danger">{errors.cardNumber.message}</p>}
                                     </div>
@@ -211,11 +212,12 @@ const Form = ({type}) =>{
                                         <input 
                                         type="text"
                                         name="expirationDate"
-                                        value={creditCard.expirationDate}
+                                        value={expirationDate}
                                         onChange={creditCardHandler}
                                         placeholder="Exp. Date: MM/YY"
-                                        style={{ borderColor: errors.expirationDate ? 'red' : 'initial', width: '300px', height: '50px' }}
+                                        style={{ borderColor: errors.expirationDate ? 'red' : ' ', width: '300px', height: '50px' }}
                                         />
+                                        {errors.expirationDate && <p className="text-danger">{errors.expirationDate.message}</p>}
                                     </div>
                                 </div>
                                 <div className="row mb-4">
@@ -223,11 +225,12 @@ const Form = ({type}) =>{
                                         <input 
                                         type="text"
                                         name="cvv"
-                                        value={creditCard.cvv}
+                                        value={cvv}
                                         onChange={creditCardHandler}
                                         placeholder="CVV"
-                                        style={{ borderColor: errors.cvv ? 'red' : 'initial', width: '300px', height: '50px' }}
-                                        />            
+                                        style={{ borderColor: errors.cvv ? 'red' : ' ', width: '300px', height: '50px' }}
+                                        />       
+                                        {errors.cvv && <p className="text-danger">{errors.cvv.message}</p>}
                                     </div>
                                 </div>
                             </div>

@@ -4,24 +4,24 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const AppointmentList = () =>{
+const AppointmentList = () => {
     const [apps, setApps] = useState([]);
 
     const navigate = useNavigate();
-    const {id} = useParams();
+    const { id } = useParams();
 
-    useEffect(() =>{
+    useEffect(() => {
         axios.get(`http://localhost:9999/api/appointments`)
-        .then((res) =>{
-            console.log(res.data);
-            setApps(res.data);
-        })
-        .catch((err) =>{
-            console.log(err);
-        })
-    }, [])
+            .then((res) => {
+                console.log(res.data);
+                setApps(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
 
-    const deleteHandler = (appointmentId) =>{
+    const deleteHandler = (appointmentId) => {
         axios.delete(`http://localhost:9999/api/appointments/${appointmentId}`)
             .then(res => {
                 console.log(res);
@@ -31,14 +31,15 @@ const AppointmentList = () =>{
             .catch(err => {
                 console.log(err);
             });
-    }
+    };
 
     return (
         <div className="container">
-            <NavBar/>
-            <div className="container row justify-content-center mt-4">
+            <NavBar />
+            <div className="row justify-content-center mt-4">
                 {apps.map((appointment, index) => (
-                        <div className="card" key={index} style={{width:'50%'}}>
+                    <div key={index} className="col-md-6 mb-4"> {/* Each card occupies 50% width on medium and larger screens */}
+                        <div className="card" style={{width: '100%'}}> {/* Ensure each card takes full width of its container */}
                             <div className="card-body">
                                 <h4 className="card-title">{appointment.firstName} {appointment.lastName}</h4>
                                 <p className="card-text">
@@ -51,10 +52,11 @@ const AppointmentList = () =>{
                                 <button onClick={() => deleteHandler(appointment._id)} className="btn btn-danger">Delete</button>
                             </div>
                         </div>
-                    ))}
+                    </div>
+                ))}
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default AppointmentList;
