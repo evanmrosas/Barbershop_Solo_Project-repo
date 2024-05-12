@@ -32,7 +32,7 @@ async function getOneApp(req, res){
 
 async function updateApp(req, res){
     try {
-        const updatedApp = await Appointment.findByIdAndUpdate(req.params.id, req.body, options);
+        const updatedApp = await Appointment.findByIdAndUpdate(req.params.id, req.body);
         res.json(updatedApp);
     } catch (error) {
         console.log(error);

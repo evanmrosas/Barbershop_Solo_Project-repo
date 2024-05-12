@@ -9,7 +9,7 @@ const Staff = () => {
     return (
         <div className="container">
             <NavBar type="staff"/>
-            <h2 className="text-center">Meet the barbers</h2>
+            <h2 className="text-center mt-3">Meet the barbers</h2>
             <StaffCard
                 image={clarenceImage}
                 name="Clarence"
