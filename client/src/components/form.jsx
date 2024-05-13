@@ -20,11 +20,11 @@ const Form = ({type}) =>{
 
     const servicePrices = {
         "Cut": 15,
-        "Clean Up": 10,
+        "Clean Up": 8,
         "Fade": 20,
         "Shave & Haircut": 40,
         "Beard": 10,
-        "Kids Cut": 7
+        "Kids Cut": 5
     };
 
     useEffect(() => {
